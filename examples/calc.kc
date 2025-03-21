@@ -127,11 +127,27 @@ main
         -> <= <-
         ret
 
+:expression sum
+
+:sum =>
+    ret
+
+:do_stuff =>
+    "!!" concat
+    ret
+
 :main
     "> " !ask !tokenize
     -> ->
+    !spill_left
+    <-
     debug
-    !spill
+    "do_stuff" !map
     debug
+exit
+
+:TODO
+    "TODO" !println
+    exit
 
 :exit

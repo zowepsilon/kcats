@@ -1,0 +1,40 @@
+main
+
+#include std.kc
+
+:return_42 =>
+    42 1 ret
+
+:return_69 =>
+    69 1 ret
+
+:fail =>
+    "i suck" 0 ret
+
+:do_stuff =>
+    !return_42 !?
+    !println
+    
+    !return_69 !?
+    !println
+    
+    !fail !?
+    !println
+
+    !return_69 !?
+    !println
+
+    1 1 ret
+
+:main
+    !do_stuff
+    !not "has_failed" goto_if
+
+    "Success: " !swap concat !println
+    exit
+
+    :has_failed
+        "Failed with reason: " !swap concat !println
+        exit
+
+:exit

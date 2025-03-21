@@ -87,15 +87,81 @@ stdlib
 
     ret
 
-:spill =>
+:spill_right =>
     -> => <-
-    :spill_aux
-        empty "spill_ret" goto_if
+    :spill_right_aux
+        empty "spill_right_ret" goto_if
         =>
-        spill_aux
+        spill_right_aux
 
-    :spill_ret
+    :spill_right_ret
         -> -> <= <- <-
         ret
+
+:spill_left =>
+    -> => <-
+    :spill_left_aux
+        empty "spill_left_ret" goto_if
+        <=
+        spill_left_aux
+
+    :spill_left_ret
+        -> -> <= <- <-
+        ret
+
+:move_right
+    // stack: n pc
+    !swap
+    dup 0 == "move_right_ret" goto_if
+    1 -
+    => =>
+    ->
+    move_right
+
+    :move_right_ret
+        pop
+        => ret
+
+:move_left
+    // stack: n pc
+    !swap
+    dup 0 == "move_left_ret" goto_if
+    1 -
+    <= <=
+    <-
+    move_left
+
+    :move_left_ret
+        pop
+        => ret
+
+:map 
+    // xs ys func pc
+    => -> => -> => <- <- // move pc by 3 stacks
+    => -> => <- // move function label by 2 stacks
+
+    :map_aux
+        empty "map_ret" goto_if
+        => ->
+        (! 10 +) ->
+        dup <= <-
+        1 !swap goto_if
+        <- <-
+        map_aux
+    
+    :map_ret
+        -> -> pop
+        <- !spill_left
+        -> -> <= <- <= <- <-
+        ret
+
+:? =>
+    dup "std_try_unwrap" goto_if
+    -> pop <-
+    ret
+
+    :std_try_unwrap
+        pop ret
+        
 
 :stdlib
