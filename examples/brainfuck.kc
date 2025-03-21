@@ -112,14 +112,14 @@ dup len
 :mainloop_start
     dup (0 1 -) == "mainloop_end" goto_if
     !dup2 .
-    dup "+" == "i_inc"      goto_if
-    dup "-" == "i_dec"      goto_if
-    dup "<" == "i_left"     goto_if
-    dup ">" == "i_right"    goto_if
-    dup "." == "i_print"    goto_if
-    dup "[" == "i_start"    goto_if
-    dup "]" == "i_end"      goto_if
-    pop // unknown character
+        dup "+" == "i_inc"      goto_if
+        dup "-" == "i_dec"      goto_if
+        dup "<" == "i_left"     goto_if
+        dup ">" == "i_right"    goto_if
+        dup "." == "i_print"    goto_if
+        dup "[" == "i_start"    goto_if
+        dup "]" == "i_end"      goto_if
+        pop // unknown character
     
     :continue
     1 -

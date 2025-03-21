@@ -1,0 +1,137 @@
+main
+
+#include std.kc
+
+// TOKENS
+//    NUMBER: 0
+//    PLUS:   1
+//    MINUS:  2
+//    STAR:   3
+//    SLASH:  4
+//    LPAREN: 5
+//    RPAREN: 6
+
+:tokenize =>
+    0 =>
+    0 tokenize_aux
+
+    :tokenize_aux
+        dup => !swap dup (len (-> <= <-) ==) "tokenize_ret" goto_if
+
+        -> 1 + <-
+        
+        !swap
+        !dup2 .
+            dup "0" == "tokenize_num"    goto_if
+            dup "1" == "tokenize_num"    goto_if
+            dup "2" == "tokenize_num"    goto_if
+            dup "3" == "tokenize_num"    goto_if
+            dup "4" == "tokenize_num"    goto_if
+            dup "5" == "tokenize_num"    goto_if
+            dup "6" == "tokenize_num"    goto_if
+            dup "7" == "tokenize_num"    goto_if
+            dup "8" == "tokenize_num"    goto_if
+            dup "9" == "tokenize_num"    goto_if
+            dup "+" == "tokenize_plus"   goto_if
+            dup "-" == "tokenize_minus"  goto_if
+            dup "*" == "tokenize_star"   goto_if
+            dup "/" == "tokenize_slash"  goto_if
+            dup "(" == "tokenize_lparen" goto_if
+            dup ")" == "tokenize_rparen" goto_if
+            dup " " == "tokenize_space"  goto_if
+            tokenize_error
+
+    :tokenize_num
+        pop
+        "" =>
+
+        :tokenize_num_loop
+            dup => !swap dup (len (-> <= <-) ==) "tokenize_num_loop_end_eof" goto_if
+            
+            !swap
+            !dup2 .
+                dup "0" == "tokenize_num_continue" goto_if
+                dup "1" == "tokenize_num_continue" goto_if
+                dup "2" == "tokenize_num_continue" goto_if
+                dup "3" == "tokenize_num_continue" goto_if
+                dup "4" == "tokenize_num_continue" goto_if
+                dup "5" == "tokenize_num_continue" goto_if
+                dup "6" == "tokenize_num_continue" goto_if
+                dup "7" == "tokenize_num_continue" goto_if
+                dup "8" == "tokenize_num_continue" goto_if
+                dup "9" == "tokenize_num_continue" goto_if
+            pop tokenize_num_loop_end
+
+        :tokenize_num_continue
+            => -> concat <-
+            1 +
+            tokenize_num_loop
+        
+        :tokenize_num_loop_end_eof
+            !swap
+        :tokenize_num_loop_end
+        -> 0 => => <-
+        
+        1 +
+        tokenize_aux
+
+    :tokenize_plus
+        pop
+        -> -> 1 <- <-
+        1 +
+        tokenize_aux
+
+    :tokenize_minus
+        pop
+        -> -> 2 <- <-
+        1 +
+        tokenize_aux
+
+    :tokenize_star
+        pop
+        -> -> 3 <- <-
+        1 +
+        tokenize_aux
+
+    :tokenize_slash
+        pop
+        -> -> 4 <- <-
+        1 +
+        tokenize_aux
+
+    :tokenize_lparen
+        pop
+        -> -> 5 <- <-
+        1 +
+        tokenize_aux
+
+    :tokenize_rparen
+        pop
+        -> -> 6 <- <-
+        1 +
+        tokenize_aux
+
+    :tokenize_space
+        pop
+        1 +
+        tokenize_aux
+
+    :tokenize_error
+        "`" concat "Error while lexing: unknown character `" !swap concat
+        !println
+        exit
+
+    :tokenize_ret
+        !swap
+        pop pop
+        -> <= <-
+        ret
+
+:main
+    "> " !ask !tokenize
+    -> ->
+    debug
+    !spill
+    debug
+
+:exit

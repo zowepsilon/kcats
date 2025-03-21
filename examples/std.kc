@@ -1,5 +1,28 @@
 stdlib
 
+
+// $x $y +
+// $base $by -
+// $x $y *
+// $dividend $divisor /
+// $code chr
+// $start $end concat
+// $value <=
+// $value =>
+// $value dup
+// empty
+// input
+// $x $y ==
+// $string $index .
+// $condition $label goto_if
+// $pc jump
+// $condition $pc jump_if
+// $string len
+// $value $modulo %
+// $x $y !=
+// pop
+// $value print
+
 :ret
     -> <= <-
     1 +
@@ -63,6 +86,16 @@ stdlib
     pop <-
 
     ret
-    
+
+:spill =>
+    -> => <-
+    :spill_aux
+        empty "spill_ret" goto_if
+        =>
+        spill_aux
+
+    :spill_ret
+        -> -> <= <- <-
+        ret
 
 :stdlib
