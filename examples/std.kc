@@ -46,92 +46,92 @@ stdlib
     ret
 
 :format_bool =>
-    "format_bool_true" goto_if
+    "std_format_bool_true" goto_if
 
     "false" ret
     
-    :format_bool_true
+    :std_format_bool_true
     "true" ret
 
 :not =>
-    "not_true" goto_if
+    "std_not_true" goto_if
 
     1 ret
     
-    :not_true
+    :std_not_true
     0 ret
 
 :reverse =>
     dup len =>
     0
-    :reverse_first_move_start
-        -> <= <- !dup2 == "reverse_first_move_end" goto_if
+    :std_reverse_first_move_start
+        -> <= <- !dup2 == "std_reverse_first_move_end" goto_if
         =>
         !dup2 .
         => -> => <-
         1 +
-        reverse_first_move_start
-    :reverse_first_move_end
+        std_reverse_first_move_start
+    :std_reverse_first_move_end
 
     => pop pop "" ->
 
-    :reverse_second_move_start
-        dup 0 == "reverse_second_move_end" goto_if
+    :std_reverse_second_move_start
+        dup 0 == "std_reverse_second_move_end" goto_if
         1 -
         ->
         <= <- <= <- concat
         ->
-        reverse_second_move_start
-    :reverse_second_move_end
+        std_reverse_second_move_start
+    :std_reverse_second_move_end
     pop <-
 
     ret
 
 :spill_right =>
     -> => <-
-    :spill_right_aux
-        empty "spill_right_ret" goto_if
+    :std_spill_right_aux
+        empty "std_spill_right_ret" goto_if
         =>
-        spill_right_aux
+        std_spill_right_aux
 
-    :spill_right_ret
+    :std_spill_right_ret
         -> -> <= <- <-
         ret
 
 :spill_left =>
     -> => <-
-    :spill_left_aux
-        empty "spill_left_ret" goto_if
+    :std_spill_left_aux
+        empty "std_spill_left_ret" goto_if
         <=
-        spill_left_aux
+        std_spill_left_aux
 
-    :spill_left_ret
+    :std_spill_left_ret
         -> -> <= <- <-
         ret
 
-:move_right
+:switch_many_right
     // stack: n pc
     !swap
-    dup 0 == "move_right_ret" goto_if
+    dup 0 == "std_switch_many_right_ret" goto_if
     1 -
     => =>
     ->
-    move_right
+    std_switch_many_right
 
-    :move_right_ret
+    :std_switch_many_right_ret
         pop
         => ret
 
-:move_left
+:switch_many_left
     // stack: n pc
     !swap
-    dup 0 == "move_left_ret" goto_if
+    dup 0 == "std_switch_many_left_ret" goto_if
     1 -
     <= <=
     <-
-    move_left
+    std_switch_many_left
 
-    :move_left_ret
+    :std_switch_many_left_ret
         pop
         => ret
 
@@ -140,16 +140,16 @@ stdlib
     => -> => -> => <- <- // move pc by 3 stacks
     => -> => <- // move function label by 2 stacks
 
-    :map_aux
-        empty "map_ret" goto_if
+    :std_map_aux
+        empty "std_map_ret" goto_if
         => ->
         (! 10 +) ->
         dup <= <-
         1 !swap goto_if
         <- <-
-        map_aux
+        std_map_aux
     
-    :map_ret
+    :std_map_ret
         -> -> pop
         <- !spill_left
         -> -> <= <- <= <- <-
