@@ -1,0 +1,40 @@
+heap
+
+#include std.kc
+
+:heap_init =>
+    dup dup !switch_move_many_right
+
+    "__HEAP_BASE" !swap
+    -> 1 <-
+    
+    !switch_many_left
+    ret
+
+:heap_find_base
+    0
+    :heap_find_base_loop
+        ->
+        empty "heap_find_base_skip" goto_if
+        (dup "__HEAP_BASE" ==) "heap_find_base_end" goto_if
+
+        :heap_find_base_skip
+        <- 1 +
+        => => -> !swap
+
+        heap_find_base_loop
+    :heap_find_base_end
+    
+    <- 1 +
+    => => ->
+    =>
+    ret
+
+:heap
+    10 !heap_init
+    -> -> -> -> 42 <- <- <- <-
+    !heap_find_base
+    debug
+    exit
+
+:exit

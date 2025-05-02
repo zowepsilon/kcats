@@ -116,9 +116,25 @@ stdlib
     1 -
     => =>
     ->
-    std_switch_many_right
+    switch_many_right
 
     :std_switch_many_right_ret
+        pop
+        => ret
+
+:switch_move_many_right
+    // stack: x n pc
+    !swap // x pc n
+    dup 0 == "std_switch_move_many_right_ret" goto_if
+    1 -      // x pc (n-1)
+    => =>    // x | (n-1) pc
+    -> => => // x | . | pc (n-1)
+    <- => -> // . | x | pc (n-1)
+    -> <= <= <- // . | x (n-1) pc
+    
+    switch_move_many_right
+
+    :std_switch_move_many_right_ret
         pop
         => ret
 
@@ -129,9 +145,25 @@ stdlib
     1 -
     <= <=
     <-
-    std_switch_many_left
+    switch_many_left
 
     :std_switch_many_left_ret
+        pop
+        => ret
+
+:switch_move_many_left
+    // stack: x n pc
+    !swap // x pc n
+    dup 0 == "std_switch_move_many_left_ret" goto_if
+    1 -
+    <= <=
+    <- <= <=
+    -> <= <-
+    <- => => ->
+    
+    switch_move_many_left
+
+    :std_switch_move_many_left_ret
         pop
         => ret
 
