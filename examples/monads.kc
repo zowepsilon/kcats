@@ -9,7 +9,7 @@ main
     69 1 ret
 
 :fail =>
-    "i suck" 0 ret
+    "418 IM_A_TEAPOT" 0 ret
 
 :do_stuff =>
     !return_42 !?

@@ -2,11 +2,13 @@
 
 An esolang inspired by Forth using an infinite tape of stacks as memory. Each cell is a string that can be interpreted in different ways (string or integer) depending of the instruction. The program is executed instruction by instruction (postfix notation).
 
+I made this project as an exercice to language design: I wanted to see how I could develop of ideas from concatenative programming languages to make them more powerful and somewhat easier to use.
+
 A notable feature is the lack of functions and structured control flow, which can be implemented as programming patterns instead. [You can even implement the `?` operator from Rust!](examples/monads.kc)
 
 ### Example
 
-Some examples can be found in [examples/](examples/), in particular a compelete brainfuck interpreter.
+Some examples can be found in [examples/](examples/), in particular [a complete brainfuck interpreter](examples/brainfuck.kc).
 
 The following program checks if a given integer is prime.
 ```rust
